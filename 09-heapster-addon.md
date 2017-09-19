@@ -87,6 +87,25 @@ $ diff influxdb-deployment.yaml.orig influxdb-deployment.yaml
 >           name: influxdb-config
 ```
 
+
+## 配置 grafana-deployment
+
+注意：manifests 目录已经提供了 [修改后的 ConfigMap 定义文件](https://github.com/opsnull/follow-me-install-kubernetes-cluster/blob/master/manifests/heapster/influxdb-cm.yaml)
+```
+$ # 将修改后的配置写入到 ConfigMap 对象中
+$ kubectl create configmap grafana-config --from-file=grafana.ini  -n kube-system
+configmap "grafana-config" created
+$ # 将 ConfigMap 中的配置文件挂载到 Pod 中，达到覆盖原始配置的目的
+$ diff grafana-deployment.yaml.orig grafana-deployment.yaml
+
+>         - mountPath: /etc/grafana/
+>           name: grafana-config
+22a25,27
+>       - name: grafana-config
+>         configMap:
+>           name: grafana-config
+```
+
 ## 配置 monitoring-influxdb Service
 
 ```

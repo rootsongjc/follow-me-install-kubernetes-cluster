@@ -21,6 +21,8 @@ spec:
       serviceAccountName: dashboard
       containers:
       - name: kubernetes-dashboard
+        args:
+        - --heapster-host=http://heapster
         image: sz-pg-oam-docker-hub-001.tendcloud.com/library/kubernetes-dashboard-amd64:v1.6.0
         resources:
           limits:
